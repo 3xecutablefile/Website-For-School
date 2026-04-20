@@ -1,60 +1,82 @@
+"use client";
+
+import StickyBottomNav from "@/components/ui/StickyBottomNav";
+import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
+import { motion } from "framer-motion";
+import Link from "next/link";
+
 export default function WaterPage() {
+  const activities = [
+    { name: "Shower", gal: 5, icon: "🚿" },
+    { name: "Dishwasher", gal: 10, icon: "🍽️" },
+    { name: "Washing Machine", gal: 40, icon: "🧺" },
+    { name: "Garden", gal: 20, icon: "🌱" },
+  ];
+
   return (
-    <div className="min-h-screen">
-      <header className="fixed top-0 left-0 right-0 z-40 glass">
-        <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="/" className="display text-xl font-bold text-emerald-400">EcoSite</a>
-          <div className="flex gap-6">
-            <a href="/water" className="tag" style={{ background: 'var(--water)', color: '#000' }}>Water</a>
-            <a href="/waste" className="tag" style={{ background: 'var(--waste)', color: '#000' }}>Waste</a>
-            <a href="/energy" className="tag" style={{ background: 'var(--energy)', color: '#000' }}>Energy</a>
-          </div>
-        </nav>
+    <div className="min-h-screen bg-[#FAFBFC] pb-24">
+      <header className="glass-card border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="display text-xl font-bold text-gray-900">
+            Water
+          </Link>
+          <span className="text-2xl font-bold text-[#0077B6]">45 gal</span>
+        </div>
       </header>
 
-      <main className="pt-32 pb-12 px-6">
-        <section className="max-w-4xl mx-auto">
-          <p className="section-label mb-4">Water Tracking</p>
-          <h1 className="display text-5xl font-bold mb-8">
-            <span className="text-cyan-400">Water</span> Usage
-          </h1>
-          
-          <div className="card p-8 mb-8">
-            <h2 className="text-xl font-semibold mb-6">Daily Log</h2>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 rounded-lg bg-cyan-500/10">
-                <div>
-                  <p className="font-medium">Shower</p>
-                  <p className="text-sm text-muted-foreground">5 min today</p>
-                </div>
-                <span className="text-cyan-400">-5 gal</span>
-              </div>
-              <div className="flex items-center justify-between p-4 rounded-lg bg-cyan-500/10">
-                <div>
-                  <p className="font-medium">Dishwasher</p>
-                  <p className="text-sm text-muted-foreground">1 load</p>
-                </div>
-                <span className="text-cyan-400">-10 gal</span>
-              </div>
-            </div>
-            <button className="mt-6 w-full py-3 rounded-lg bg-cyan-500 text-black font-semibold">
-              + Add Water Activity
-            </button>
+      <main className="max-w-4xl mx-auto px-6 py-8">
+        {/* Hero */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
+          <div className="text-8xl mb-4">💧</div>
+          <h1 className="display text-4xl font-bold text-gray-900 mb-2">Track Water</h1>
+          <p className="text-gray-600">Log your daily water usage</p>
+        </motion.div>
+
+        {/* Activities Grid */}
+        <div className="grid grid-cols-2 gap-4">
+          {activities.map((activity, i) => (
+            <motion.div
+              key={activity.name}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="glass-card p-6 rounded-3xl text-center cursor-pointer"
+            >
+              <span className="text-4xl block mb-2">{activity.icon}</span>
+              <h3 className="font-semibold text-gray-900">{activity.name}</h3>
+              <p className="text-[#0077B6] font-bold">-{activity.gal} gal</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Weekly Chart */}
+        <div className="glass-card p-6 rounded-3xl mt-8">
+          <h3 className="font-semibold text-gray-900 mb-4">This Week</h3>
+          <div className="flex items-end gap-2 h-32">
+            {[45, 60, 35, 80, 50, 70, 55].map((v, i) => (
+              <motion.div
+                key={i}
+                className="flex-1 rounded-t-xl bg-[#0077B6]"
+                initial={{ height: 0 }}
+                animate={{ height: `${v}%` }}
+                transition={{ delay: 0.3 + i * 0.05 }}
+              />
+            ))}
           </div>
-          
-          <div className="card p-8">
-            <h2 className="text-xl font-semibold mb-4">Weekly Stats</h2>
-            <div className="h-32 flex items-end gap-2">
-              {[40, 65, 45, 80, 55, 70, 50].map((h, i) => (
-                <div key={i} className="flex-1 bg-cyan-500/30 rounded-t" style={{ height: `${h}%` }} />
-              ))}
-            </div>
-            <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-            </div>
+          <div className="flex justify-between mt-2 text-xs text-gray-400">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
           </div>
-        </section>
+        </div>
       </main>
+
+      <StickyBottomNav />
+      <FloatingChatWidget />
     </div>
-  )
+  );
 }

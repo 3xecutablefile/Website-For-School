@@ -1,55 +1,76 @@
+"use client";
+
+import StickyBottomNav from "@/components/ui/StickyBottomNav";
+import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
+import { motion } from "framer-motion";
+import Link from "next/link";
+
 export default function WastePage() {
+  const stats = [
+    { label: "Recycled", value: "12 lbs", color: "#2D6A4F" },
+    { label: "Composted", value: "8 lbs", color: "#40916C" },
+    { label: "Landfill", value: "3 lbs", color: "#E76F51" },
+  ];
+
   return (
-    <div className="min-h-screen">
-      <header className="fixed top-0 left-0 right-0 z-40 glass">
-        <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="/" className="display text-xl font-bold text-emerald-400">EcoSite</a>
-          <div className="flex gap-6">
-            <a href="/water" className="tag" style={{ background: 'var(--water)', color: '#000' }}>Water</a>
-            <a href="/waste" className="tag" style={{ background: 'var(--waste)', color: '#000' }}>Waste</a>
-            <a href="/energy" className="tag" style={{ background: 'var(--energy)', color: '#000' }}>Energy</a>
-          </div>
-        </nav>
+    <div className="min-h-screen bg-[#FAFBFC] pb-24">
+      <header className="glass-card border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="display text-xl font-bold text-gray-900">
+            Waste
+          </Link>
+          <span className="text-2xl font-bold text-[#2D6A4F]">20 lbs</span>
+        </div>
       </header>
 
-      <main className="pt-32 pb-12 px-6">
-        <section className="max-w-4xl mx-auto">
-          <p className="section-label mb-4">Waste Tracking</p>
-          <h1 className="display text-5xl font-bold mb-8">
-            <span className="text-lime-400">Waste</span> Management
-          </h1>
-          
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <div className="card p-6 text-center">
-              <p className="text-3xl font-bold text-lime-400">12</p>
-              <p className="text-sm text-muted-foreground">Recycled (lbs)</p>
-            </div>
-            <div className="card p-6 text-center">
-              <p className="text-3xl font-bold text-lime-400">8</p>
-              <p className="text-sm text-muted-foreground">Composted (lbs)</p>
-            </div>
-            <div className="card p-6 text-center">
-              <p className="text-3xl font-bold text-red-400">3</p>
-              <p className="text-sm text-muted-foreground">Landfill (lbs)</p>
-            </div>
-          </div>
-          
-          <div className="card p-8">
-            <h2 className="text-xl font-semibold mb-6">Log Waste</h2>
-            <div className="space-y-3">
-              <button className="w-full py-4 rounded-lg bg-lime-500/20 text-left hover:bg-lime-500/30 transition">
-                <span className="text-lime-400">♻️</span> Recycle Item
-              </button>
-              <button className="w-full py-4 rounded-lg bg-amber-500/20 text-left hover:bg-amber-500/30 transition">
-                <span className="text-amber-400">🌱</span> Compost Item
-              </button>
-              <button className="w-full py-4 rounded-lg bg-red-500/20 text-left hover:bg-red-500/30 transition">
-                <span className="text-red-400">🗑️</span> Landfill Item
-              </button>
-            </div>
-          </div>
-        </section>
+      <main className="max-w-4xl mx-auto px-6 py-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+          <div className="text-8xl mb-4">♻️</div>
+          <h1 className="display text-4xl font-bold text-gray-900 mb-2">Track Waste</h1>
+          <p className="text-gray-600">Log recycling and composting</p>
+        </motion.div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="glass-card p-4 rounded-2xl text-center"
+            >
+              <p className="display text-2xl font-bold" style={{ color: stat.color }}>{stat.value}</p>
+              <p className="text-gray-500 text-sm">{stat.label}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="space-y-4">
+          {[
+            { icon: "♻️", label: "Recycle Item", color: "#2D6A4F" },
+            { icon: "🌱", label: "Compost Item", color: "#40916C" },
+            { icon: "🗑️", label: "Landfill Item", color: "#E76F51" },
+          ].map((action, i) => (
+            <motion.button
+              key={action.label}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 + i * 0.1 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full p-4 rounded-2xl font-medium text-left flex items-center gap-4"
+              style={{ background: `${action.color}15` }}
+            >
+              <span className="text-2xl">{action.icon}</span>
+              <span style={{ color: action.color }}>{action.label}</span>
+            </motion.button>
+          ))}
+        </div>
       </main>
+
+      <StickyBottomNav />
+      <FloatingChatWidget />
     </div>
-  )
+  );
 }
