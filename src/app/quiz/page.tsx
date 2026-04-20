@@ -88,7 +88,7 @@ const questions: Question[] = [
     options: [
       { label: "I unplug devices when not in use", value: 0, micro: "The vampire hunter" },
       { label: "I turn off lights", value: 1, micro: "The light switcher" },
-      { label: "I use energy-saving mode", value: 2, mode: "The eco setting user" },
+      { label: "I use energy-saving mode", value: 2, micro: "The eco setting user" },
       { label: "I don't think about it", value: 3, micro: "The unaware consumer" },
     ],
   },
