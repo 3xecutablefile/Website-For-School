@@ -4,52 +4,51 @@ import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { Zap, Flame, TrendingUp } from "lucide-react";
 
 export default function EnergyPage() {
   const tips = [
-    { icon: "💡", label: "Turn off lights", saved: "0.5 kWh" },
-    { icon: "🔌", label: "Unplug devices", saved: "0.3 kWh" },
-    { icon: "🌡️", label: "Adjust thermostat", saved: "1.2 kWh" },
+    { label: "Turn off lights", saved: "0.5 kWh" },
+    { label: "Unplug devices", saved: "0.3 kWh" },
+    { label: "Adjust thermostat", saved: "1.2 kWh" },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAFBFC] pb-24">
-      <header className="glass-card border-b border-gray-200 sticky top-0 z-40">
+    <div className="min-h-screen bg-[#FFFFFF] pb-24">
+      <header className="sticky top-0 z-40 bg-[#FFFFFF]/80 backdrop-blur-xl border-b border-[#E5E5E7]">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="display text-xl font-bold text-gray-900">
+          <Link href="/" className="display text-xl font-semibold text-[#1D1D1F]">
             Energy
           </Link>
-          <span className="text-2xl font-bold text-[#F59E0B]">12.5 kWh</span>
+          <span className="display text-2xl font-semibold text-[#1D1D1F]">12.5 kWh</span>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <div className="text-8xl mb-4">⚡</div>
-          <h1 className="display text-4xl font-bold text-gray-900 mb-2">Track Energy</h1>
-          <p className="text-gray-600">Monitor your electricity usage</p>
+          <Zap className="w-16 h-16 mx-auto mb-4 text-[#1D1D1F]" />
+          <h1 className="display text-4xl font-semibold text-[#1D1D1F] mb-2">Track Energy</h1>
+          <p className="text-[#6E6E73]">Monitor your electricity usage</p>
         </motion.div>
 
-        {/* Usage Bar */}
-        <div className="glass-card p-6 rounded-3xl mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="font-medium text-gray-900">Today's Usage</span>
-            <span className="text-2xl font-bold text-[#F59E0B]">12.5 <span className="text-sm font-normal">kWh</span></span>
+        <div className="minimal-border p-6 rounded-2xl mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <span className="font-medium text-[#1D1D1F]">Today&apos;s Usage</span>
+            <span className="display text-2xl font-semibold text-[#1D1D1F]">12.5 <span className="text-sm font-normal text-[#6E6E73]">kWh</span></span>
           </div>
-          <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-3 bg-[#E5E5E7] rounded-full overflow-hidden">
             <motion.div 
-              className="h-full rounded-full bg-gradient-to-r from-[#F59E0B] to-[#FBBF24]"
+              className="h-full rounded-full bg-[#1D1D1F]"
               initial={{ width: 0 }}
               animate={{ width: "62%" }}
               transition={{ duration: 1, delay: 0.3 }}
             />
           </div>
-          <p className="text-sm text-gray-500 mt-2">62% of daily budget (20 kWh)</p>
+          <p className="text-sm text-[#6E6E73] mt-2">62% of daily budget (20 kWh)</p>
         </div>
 
-        {/* Quick Actions */}
-        <h3 className="font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="space-y-3">
+        <h3 className="font-semibold text-[#1D1D1F] mb-4">Quick Actions</h3>
+        <div className="space-y-3 mb-8">
           {tips.map((tip, i) => (
             <motion.button
               key={tip.label}
@@ -57,22 +56,19 @@ export default function EnergyPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 + i * 0.1 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full p-4 rounded-2xl text-left flex items-center justify-between bg-[#F59E0B]15"
+              className="w-full p-4 rounded-xl text-left flex items-center justify-between bg-[#F5F5F7] hover:bg-[#E5E5E7] transition-colors"
             >
-              <span className="flex items-center gap-3">
-                <span className="text-xl">{tip.icon}</span>
-                <span className="font-medium text-gray-900">{tip.label}</span>
-              </span>
-              <span className="text-[#F59E0B] font-semibold">-{tip.saved}</span>
+              <span className="font-medium text-[#1D1D1F]">{tip.label}</span>
+              <span className="text-[#007AFF] font-medium">-{tip.saved}</span>
             </motion.button>
           ))}
         </div>
 
-        {/* Streak */}
-        <div className="glass-card p-6 rounded-3xl mt-8 text-center">
-          <p className="text-5xl font-bold text-[#2D6A4F]">5 <span className="text-xl">days</span></p>
-          <p className="text-gray-500">Current Streak</p>
-          <p className="text-sm text-gray-400 mt-2">Longest: 12 days</p>
+        <div className="minimal-border p-6 rounded-2xl text-center">
+          <TrendingUp className="w-8 h-8 mx-auto mb-2 text-[#1D1D1F]" />
+          <p className="display text-4xl font-semibold text-[#1D1D1F]">5 <span className="text-lg">days</span></p>
+          <p className="text-[#6E6E73]">Current Streak</p>
+          <p className="text-sm text-[#A1A1A6] mt-2">Longest: 12 days</p>
         </div>
       </main>
 

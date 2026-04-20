@@ -1,63 +1,57 @@
 "use client";
 
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useState, useEffect } from "react";
-import { ThermometerSun, Wind, Leaf, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { Thermometer, Wind, Leaf, Zap } from "lucide-react";
 
 export default function ACTemperatureSlider() {
-  const [temperature, setTemperature] = useState(24); // Default 24°C
-  const [carbonSaved, setCarbonSaved] = useState(0);
-
-  // Calculate theme based on temperature
-  // Lower temp = more AC = "Heat Red" (bad for environment)
-  // Higher temp = less AC = "Eco Green" (good for environment)
-  const getThemeColor = (temp: number) => {
-    if (temp <= 18) return "#E76F51"; // Heat Red - too cold
-    if (temp <= 22) return "#F7931E"; // Warm orange
-    if (temp <= 26) return "#0077B6"; // Sea blue - optimal
-    return "#2D6A4F"; // Desert green - eco friendly
+  const [temperature, setTemperature] = useState(24);
+  
+  // Temperature tint logic
+  const getTint = (temp: number) => {
+    if (temp <= 20) return "rgba(255, 160, 0, 0.03)"; // Warm gray
+    if (temp <= 24) return "rgba(0, 0, 0, 0.02)"; // Neutral
+    return "rgba(0, 122, 255, 0.03)"; // Cold blue
   };
-
-  const themeColor = getThemeColor(temperature);
-
-  // Calculate carbon savings based on temperature difference from 18°C (baseline)
-  useEffect(() => {
-    const savings = Math.max(0, (24 - temperature) * 0.5); // kg CO2 per day
-    setCarbonSaved(savings);
-  }, [temperature]);
-
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTemperature(parseInt(e.target.value));
+  
+  const getBorderTint = (temp: number) => {
+    if (temp <= 20) return "#FFA500";
+    if (temp <= 24) return "#E5E5E7";
+    return "#007AFF";
   };
-
-  const daysPerYear = 90; // Summer days in UAE
-  const yearlySavings = (carbonSaved * daysPerYear).toFixed(1);
+  
+  const tint = getTint(temperature);
+  const borderColor = getBorderTint(temperature);
+  
+  // Carbon savings calculation
+  const carbonSaved = Math.max(0, (24 - temperature) * 0.5);
 
   return (
-    <section className="py-16 px-6">
-      <div className="max-w-4xl mx-auto">
-        <motion.div 
-          className="glass-card rounded-4xl p-8 md:p-12"
-          whileHover={{ boxShadow: "0 20px 60px rgba(0, 0, 0, 0.1)" }}
+    <section className="py-20 px-6">
+      <div className="max-w-3xl mx-auto">
+        <motion.div
+          className="minimal-border rounded-2xl p-8 md:p-12"
+          style={{ background: tint, borderColor }}
+          animate={{ borderColor }}
+          transition={{ duration: 0.3 }}
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <ThermometerSun className="w-8 h-8" style={{ color: themeColor }} />
+              <Thermometer className="w-6 h-6 text-[#1D1D1F]" />
               <div>
-                <h3 className="display text-2xl font-bold text-gray-900">AC Temperature</h3>
-                <p className="text-gray-500 text-sm">Adjust to save energy</p>
+                <h3 className="display text-xl font-semibold text-[#1D1D1F]">Temperature</h3>
+                <p className="text-sm text-[#6E6E73]">Adjust your AC for savings</p>
               </div>
             </div>
-            <motion.div 
-              className="text-5xl font-bold"
-              style={{ color: themeColor }}
+            <motion.p
               key={temperature}
-              initial={{ scale: 1.2 }}
+              initial={{ scale: 1.1 }}
               animate={{ scale: 1 }}
+              className="display text-5xl font-semibold text-[#1D1D1F]"
             >
-              {temperature}°C
-            </motion.div>
+              {temperature}°
+            </motion.p>
           </div>
 
           {/* Slider */}
@@ -67,80 +61,51 @@ export default function ACTemperatureSlider() {
               min="16"
               max="30"
               value={temperature}
-              onChange={handleSliderChange}
-              className="w-full h-4 rounded-full appearance-none cursor-pointer"
+              onChange={(e) => setTemperature(parseInt(e.target.value))}
+              className="w-full h-2 rounded-full appearance-none cursor-pointer bg-[#E5E5E7]"
               style={{
-                background: `linear-gradient(to right, #E76F51 0%, #F7931E 25%, #0077B6 50%, #2D6A4F 100%)`,
+                background: `linear-gradient(to right, ${borderColor} 0%, ${borderColor} ${((temperature - 16) / 14) * 100}%, #E5E5E7 ${((temperature - 16) / 14) * 100}%, #E5E5E7 100%)`,
               }}
             />
-            {/* Custom thumb */}
-            <div
-              className="absolute w-8 h-8 -ml-1 rounded-full bg-white shadow-xl border-4 flex items-center justify-center pointer-events-none"
-              style={{ 
-                borderColor: themeColor,
-                top: "50%",
-                transform: "translateY(-50%)",
-                left: `calc(${((temperature - 16) / 14) * 100}% - 1rem)`,
-              }}
-            >
-              <Wind className="w-3 h-3" style={{ color: themeColor }} />
-            </div>
-
-            {/* Labels */}
-            <div className="flex justify-between mt-3 text-xs text-gray-400">
+            <div className="flex justify-between mt-2 text-xs text-[#A1A1A6]">
               <span>16°C</span>
-              <span>18°C</span>
-              <span>22°C</span>
-              <span>26°C</span>
+              <span>20°C</span>
+              <span>24°C</span>
+              <span>28°C</span>
               <span>30°C</span>
             </div>
           </div>
 
           {/* Stats */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Carbon Saved */}
-            <motion.div 
-              className="text-center p-4 rounded-2xl"
-              style={{ background: `${themeColor}10` }}
-              animate={{ background: `${themeColor}10` }}
-            >
-              <Leaf className="w-6 h-6 mx-auto mb-2" style={{ color: themeColor }} />
-              <p className="display text-2xl font-bold" style={{ color: themeColor }}>
-                {carbonSaved.toFixed(1)} kg
-              </p>
-              <p className="text-gray-500 text-sm">CO₂ Saved Daily</p>
-            </motion.div>
-
-            {/* Yearly Impact */}
-            <div className="text-center p-4 rounded-2xl bg-gray-50">
-              <Zap className="w-6 h-6 mx-auto mb-2 text-amber-500" />
-              <p className="display text-2xl font-bold text-gray-900">
-                {yearlySavings} kg
-              </p>
-              <p className="text-gray-500 text-sm">CO₂ Saved Yearly</p>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-[#F5F5F7] rounded-xl">
+              <Leaf className="w-5 h-5 mx-auto mb-2 text-[#6E6E73]" />
+              <p className="display text-xl font-semibold text-[#1D1D1F]">{carbonSaved.toFixed(1)} kg</p>
+              <p className="text-xs text-[#A1A1A6]">CO2 Saved Daily</p>
             </div>
-
-            {/* Recommendations */}
-            <div className="text-center p-4 rounded-2xl bg-gray-50">
+            <div className="text-center p-4 bg-[#F5F5F7] rounded-xl">
+              <Zap className="w-5 h-5 mx-auto mb-2 text-[#6E6E73]" />
+              <p className="display text-xl font-semibold text-[#1D1D1F]">{(carbonSaved * 90).toFixed(0)} kg</p>
+              <p className="text-xs text-[#A1A1A6]">CO2 Saved Yearly</p>
+            </div>
+            <div className="text-center p-4 bg-[#F5F5F7] rounded-xl">
               {temperature <= 20 ? (
                 <>
-                  <span className="text-3xl">🥶</span>
-                  <p className="text-gray-900 font-medium mt-1">Too Cold!</p>
-                  <p className="text-gray-500 text-sm">Try 24°C for comfort</p>
+                  <Wind className="w-5 h-5 mx-auto mb-2 text-[#FFA500]" />
+                  <p className="display text-xl font-semibold text-[#1D1D1F]">Too Cold</p>
                 </>
               ) : temperature <= 24 ? (
                 <>
-                  <span className="text-3xl">✅</span>
-                  <p className="text-gray-900 font-medium mt-1">Optimal</p>
-                  <p className="text-gray-500 text-sm">Great balance</p>
+                  <Wind className="w-5 h-5 mx-auto mb-2 text-[#007AFF]" />
+                  <p className="display text-xl font-semibold text-[#1D1D1F]">Optimal</p>
                 </>
               ) : (
                 <>
-                  <span className="text-3xl">🌿</span>
-                  <p className="text-gray-900 font-medium mt-1">Eco Mode</p>
-                  <p className="text-gray-500 text-sm">Best for planet</p>
+                  <Wind className="w-5 h-5 mx-auto mb-2 text-[#007AFF]" />
+                  <p className="display text-xl font-semibold text-[#1D1D1F]">Eco</p>
                 </>
               )}
+              <p className="text-xs text-[#A1A1A6]">{temperature <= 20 ? "Try 24C" : temperature <= 24 ? "Balanced" : "Best"}</p>
             </div>
           </div>
         </motion.div>

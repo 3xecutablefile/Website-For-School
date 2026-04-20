@@ -3,124 +3,117 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, Sparkles, Leaf, Droplets, Zap } from "lucide-react";
-import AnimatedStats from "./AnimatedStats";
+import { ChevronRight, ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
-  const words = ["Small habits.", "Big impact."];
-  const [visibleWords, setVisibleWords] = useState<number[]>([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    words.forEach((_, i) => {
-      setTimeout(() => {
-        setVisibleWords((prev) => [...prev, i]);
-      }, i * 400);
-    });
+    setVisible(true);
   }, []);
 
-  const features = [
-    { icon: Droplets, label: "Water", desc: "Track usage", color: "#0077B6", href: "/water" },
-    { icon: Leaf, label: "Waste", desc: "Log recycling", color: "#2D6A4F", href: "/waste" },
-    { icon: Zap, label: "Energy", desc: "Monitor usage", color: "#F59E0B", href: "/energy" },
-  ];
-
   return (
-    <section className="relative min-h-[85vh] overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0077B6]/5 via-white to-[#2D6A4F]/5">
-        <motion.div
-          className="absolute top-20 left-10 w-72 h-72 rounded-full"
-          style={{ background: "radial-gradient(circle, #0077B620 0%, transparent 70%)" }}
-          animate={{ x: [0, 40, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full"
-          style={{ background: "radial-gradient(circle, #2D6A4F15 0%, transparent 70%)" }}
-          animate={{ x: [0, -50, 0], y: [0, 40, 0], scale: [1, 1.15, 1] }}
-          transition={{ duration: 10, repeat: Infinity }}
-        />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 pt-32 pb-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Hero Text */}
-          <div className="max-w-4xl mb-16">
-            {words.map((word, index) => (
-              <motion.div
-                key={index}
-                className="overflow-hidden"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: visibleWords.includes(index) ? 1 : 0, y: visibleWords.includes(index) ? 0 : 50 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <h1 className="display text-5xl md:text-7xl lg:text-8xl font-bold text-gray-900 leading-tight">
-                  {word}
-                </h1>
-              </motion.div>
-            ))}
-
-            <motion.p
-              className="text-xl text-gray-600 mt-6 max-w-xl"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: visibleWords.length === words.length ? 1 : 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              Track your water usage, waste reduction, and energy consumption. 
-              Build sustainable habits and see your real environmental impact in the UAE.
-            </motion.p>
-
-            {/* CTA */}
-            <motion.div
-              className="flex flex-wrap gap-4 mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: visibleWords.length === words.length ? 1 : 0, y: visibleWords.length === words.length ? 0 : 20 }}
-              transition={{ duration: 0.6, delay: 1 }}
-            >
-              <Link href="/water" className="group inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-all">
-                Start Tracking
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link href="/about" className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-all">
-                Learn More
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* Feature Cards */}
+    <section className="relative min-h-[85vh] flex items-center">
+      <div className="max-w-7xl mx-auto px-6 py-32 w-full">
+        {/* Hero with Split Typography */}
+        <div className="max-w-4xl">
+          {/* "Small habits" - Clean Sans-Serif */}
           <motion.div
-            className="grid md:grid-cols-3 gap-6"
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
           >
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <Link key={feature.label} href={feature.href}>
-                  <motion.div
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    className="glass-card p-6 rounded-3xl cursor-pointer"
-                  >
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{ background: `${feature.color}15` }}>
-                      <Icon className="w-7 h-7" style={{ color: feature.color }} />
-                    </div>
-                    <h3 className="display text-xl font-semibold text-gray-900">{feature.label}</h3>
-                    <p className="text-gray-500 mt-1">{feature.desc}</p>
-                  </motion.div>
-                </Link>
-              );
-            })}
+            <h1 className="display text-5xl md:text-7xl lg:text-8xl font-semibold text-[#1D1D1F] leading-[1.1] tracking-tight">
+              Small habits
+            </h1>
+          </motion.div>
+
+          {/* "Big impact" - Elegant Serif Italic with blur effect */}
+          <motion.div
+            initial={{ opacity: 0, filter: "blur(10px)" }}
+            animate={visible ? { opacity: 1, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <h1 className="display-serif text-5xl md:text-7xl lg:text-8xl font-medium text-[#1D1D1F] leading-[1.1] tracking-tight">
+              Big impact
+            </h1>
+          </motion.div>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-lg md:text-xl text-[#6E6E73] mt-8 max-w-lg leading-relaxed"
+          >
+            Track water, waste, and energy. Build sustainable habits. 
+            See your real environmental impact.
+          </motion.p>
+
+          {/* CTA Buttons - Magnetic Style */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="flex flex-wrap gap-4 mt-10"
+          >
+            <Link
+              href="/water"
+              className="group magnetic-btn inline-flex items-center gap-2 px-8 py-4 bg-[#1D1D1F] text-white font-medium rounded-xl hover:bg-[#007AFF] transition-colors"
+            >
+              Start Tracking
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              href="/about"
+              className="magnetic-btn inline-flex items-center gap-2 px-8 py-4 border border-[#E5E5E7] text-[#1D1D1F] font-medium rounded-xl hover:border-[#007AFF] hover:text-[#007AFF] transition-all"
+            >
+              Learn More
+            </Link>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={visible ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 1 }}
+            className="flex flex-wrap gap-10 mt-16 pt-8 border-t border-[#E5E5E7]"
+          >
+            {[
+              { value: "2,547", label: "Active Trackers" },
+              { value: "48.2k", label: "Gallons Saved" },
+              { value: "12.4k", label: "kg CO₂ Reduced" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="display text-2xl font-semibold text-[#1D1D1F]">{stat.value}</p>
+                <p className="text-sm text-[#A1A1A6] mt-1">{stat.label}</p>
+              </div>
+            ))}
           </motion.div>
         </div>
-      </div>
 
-      {/* Wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 100" fill="none">
-          <path d="M0 50C240 100 480 100 720 50C960 0 1200 0 1440 50L1440 100L0 100Z" fill="#FAFBFC" />
-        </svg>
+        {/* Minimal Feature Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={visible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 1.1 }}
+          className="grid md:grid-cols-3 gap-4 mt-16"
+        >
+          {[
+            { label: "Water", desc: "Track usage", href: "/water" },
+            { label: "Waste", desc: "Log recycling", href: "/waste" },
+            { label: "Energy", desc: "Monitor usage", href: "/energy" },
+          ].map((item) => (
+            <Link key={item.label} href={item.href}>
+              <div className="bento-card p-6 cursor-pointer">
+                <h3 className="display text-lg font-semibold text-[#1D1D1F]">{item.label}</h3>
+                <p className="text-sm text-[#6E6E73] mt-1">{item.desc}</p>
+              </div>
+            </Link>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
