@@ -4,7 +4,7 @@ import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Leaf, BarChart2 } from "lucide-react";
+import { Leaf } from "lucide-react";
 
 export default function WastePage() {
   const stats = [
@@ -17,8 +17,9 @@ export default function WastePage() {
     <div className="min-h-screen bg-[#FFFFFF] pb-24">
       <header className="sticky top-0 z-40 bg-[#FFFFFF]/80 backdrop-blur-xl border-b border-[#E5E5E7]">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="display text-xl font-semibold text-[#1D1D1F]">
-            Waste
+          <Link href="/" className="flex items-center gap-0">
+            <span className="logo-text text-xl font-bold text-[#1D1D1F]">Ecolife</span>
+            <span className="logo-dot"></span>
           </Link>
           <span className="display text-2xl font-semibold text-[#1D1D1F]">20 lbs</span>
         </div>
@@ -26,9 +27,9 @@ export default function WastePage() {
 
       <main className="max-w-4xl mx-auto px-6 py-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <Leaf className="w-16 h-16 mx-auto mb-4 text-[#1D1D1F]" />
-          <h1 className="display text-4xl font-semibold text-[#1D1D1F] mb-2">Track Waste</h1>
-          <p className="text-[#6E6E73]">Log recycling and composting</p>
+          <Leaf className="w-16 h-16 mx-auto mb-4 text-[#1D1D1F]" strokeWidth={1.5} />
+          <h1 className="display text-4xl font-semibold text-[#1D1D1F] mb-2">Refine Your Waste Strategy</h1>
+          <p className="text-[#6E6E73] micro-copy">Every item sorted is progress made.</p>
         </motion.div>
 
         <div className="grid grid-cols-3 gap-4 mb-8">

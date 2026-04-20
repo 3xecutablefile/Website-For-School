@@ -12,13 +12,13 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#FAFBFC]">
+    <div className="min-h-screen bg-[#FFFFFF]">
       <MiniNavbar />
       
       <HeroSection />
       
       {/* Stats Section */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 bg-[#F5F5F7]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -26,9 +26,9 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <p className="font-mono text-sm tracking-widest text-gray-500 uppercase mb-3">Our Impact</p>
-            <h2 className="display text-4xl font-bold text-gray-900">
-              Together We&apos;re Making a <span className="text-[#2D6A4F]">Difference</span>
+            <p className="text-xs font-medium tracking-widest text-[#A1A1A6] uppercase mb-3">Our Impact</p>
+            <h2 className="display text-4xl font-semibold text-[#1D1D1F]">
+              Together We&apos;re Making a <span className="text-[#007AFF]">Difference</span>
             </h2>
           </motion.div>
           <AnimatedStats />
