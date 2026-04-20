@@ -3,14 +3,23 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { useEco } from "@/context/EcoContext";
 
 export default function HeroSection() {
   const [visible, setVisible] = useState(false);
+  const { data } = useEco();
 
   useEffect(() => {
     setVisible(true);
   }, []);
+
+  const formatValue = (val: number) => {
+    if (val >= 1000) return (val / 1000).toFixed(1) + "k";
+    return val.toString();
+  };
+
+  const hasData = data.water > 0 || data.energy > 0 || data.waste > 0;
 
   return (
     <section className="relative min-h-[85vh] flex items-center">
@@ -74,23 +83,25 @@ export default function HeroSection() {
             </Link>
           </motion.div>
 
-          {/* Stats */}
+          {/* Stats - Dynamic */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={visible ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 1 }}
             className="flex flex-wrap gap-10 mt-16 pt-8 border-t border-[#E5E5E7]"
           >
-            {[
-              { value: "2,547", label: "Active Trackers" },
-              { value: "48.2k", label: "Gallons Saved" },
-              { value: "12.4k", label: "kg CO₂ Reduced" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="display text-2xl font-semibold text-[#1D1D1F]">{stat.value}</p>
-                <p className="text-sm text-[#A1A1A6] mt-1">{stat.label}</p>
-              </div>
-            ))}
+            <div>
+              <p className="display text-2xl font-semibold text-[#007AFF]">{formatValue(data.water)}</p>
+              <p className="text-sm text-[#A1A1A6] mt-1">Gallons Tracked</p>
+            </div>
+            <div>
+              <p className="display text-2xl font-semibold text-[#007AFF]">{formatValue(data.energy)}</p>
+              <p className="text-sm text-[#A1A1A6] mt-1">kWh Tracked</p>
+            </div>
+            <div>
+              <p className="display text-2xl font-semibold text-[#007AFF]">{formatValue(data.waste)}</p>
+              <p className="text-sm text-[#A1A1A6] mt-1">Items Logged</p>
+            </div>
           </motion.div>
         </div>
 
