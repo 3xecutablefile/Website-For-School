@@ -1,22 +1,70 @@
 "use client";
 
-import { motion, useSpring, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
-
-interface AnimatedCounterProps {
-  end: number;
-  duration?: number;
-  suffix?: string;
-  prefix?: string;
-}
+import { motion } from "framer-motion";
+import { useEco } from "@/context/EcoContext";
 
 export default function AnimatedStats() {
+  const { data } = useEco();
+
+  const formatValue = (val: number) => {
+    if (val >= 1000) return (val / 1000).toFixed(1) + "k";
+    return val.toString();
+  };
+
   const stats = [
-    { value: "2,547", label: "Active Trackers", trend: "+12%", color: "#0077B6" },
-    { value: "48.2k", label: "Gallons Saved", trend: "+8%", color: "#2D6A4F" },
-    { value: "12.4k", label: "kg CO₂ Reduced", trend: "+23%", color: "#F59E0B" },
-    { value: "98%", label: "Satisfaction", trend: "", color: "#8B5CF6" },
+    { value: data.water + data.energy + data.waste, label: "Total Impact", suffix: "", color: "#007AFF" },
+    { value: data.water, label: "Gallons Tracked", suffix: " gal", color: "#0077B6" },
+    { value: data.energy, label: "kWh Tracked", suffix: " kWh", color: "#F59E0B" },
+    { value: data.waste, label: "Items Tracked", suffix: "", color: "#34C759" },
   ];
+
+  const hasData = data.water > 0 || data.energy > 0 || data.waste > 0;
+
+  if (!hasData) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card p-6 rounded-3xl text-center"
+        >
+          <p className="text-xs text-[#A1A1A6] mb-2">Start tracking to see your impact</p>
+          <p className="text-[#6E6E73] text-sm">No data yet</p>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="glass-card p-6 rounded-3xl text-center"
+        >
+          <p className="text-xs text-[#A1A1A6] mb-2">Start tracking to see your impact</p>
+          <p className="text-[#6E6E73] text-sm">No data yet</p>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="glass-card p-6 rounded-3xl text-center"
+        >
+          <p className="text-xs text-[#A1A1A6] mb-2">Start tracking to see your impact</p>
+          <p className="text-[#6E6E73] text-sm">No data yet</p>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="glass-card p-6 rounded-3xl text-center"
+        >
+          <p className="text-xs text-[#A1A1A6] mb-2">Start tracking to see your impact</p>
+          <p className="text-[#6E6E73] text-sm">No data yet</p>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -29,22 +77,10 @@ export default function AnimatedStats() {
           transition={{ delay: index * 0.1 }}
           className="glass-card p-6 rounded-3xl text-center"
         >
-          <div className="flex items-center justify-center gap-2">
-            <span className="display text-3xl font-bold" style={{ color: stat.color }}>
-              {stat.value}
-            </span>
-            {stat.trend && (
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.5 + index * 0.1, type: "spring" }}
-                className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full"
-              >
-                {stat.trend}
-              </motion.span>
-            )}
-          </div>
-          <p className="text-gray-500 text-sm mt-2">{stat.label}</p>
+          <span className="display text-3xl font-bold" style={{ color: stat.color }}>
+            {formatValue(stat.value)}{stat.suffix}
+          </span>
+          <p className="text-[#6E6E73] text-sm mt-2">{stat.label}</p>
         </motion.div>
       ))}
     </div>
