@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { EcoProvider } from "@/context/EcoContext"
+import DarkModeManager from "@/components/ui/DarkModeManager"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" data-scroll-behavior="smooth" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full">
         <EcoProvider>
+          <DarkModeManager />
           {children}
         </EcoProvider>
       </body>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, RotateCcw, Moon, Sun } from "lucide-react";
 import { useEco } from "@/context/EcoContext";
+import { useEffect } from "react";
 
 interface PageHeaderProps {
   title: string;
@@ -11,6 +12,14 @@ interface PageHeaderProps {
 
 export default function PageHeader({ title, showBack = true }: PageHeaderProps) {
   const { darkMode, toggleDarkMode, resetData } = useEco();
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
     <header className={`sticky top-0 z-40 ${darkMode ? "bg-[#1D1D1F]/80" : "bg-[#FFFFFF]/80"} backdrop-blur-xl border-b ${darkMode ? "border-[#2C2C2E]" : "border-[#E5E5E7]"}`}>

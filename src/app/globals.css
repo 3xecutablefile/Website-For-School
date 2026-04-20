@@ -29,6 +29,19 @@
   --noise-opacity: 0.025;
 }
 
+html.dark {
+  --bg-primary: #1D1D1F;
+  --bg-secondary: #2C2C2E;
+  --bg-tertiary: #3C3C3E;
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1A6;
+  --text-muted: #6E6E73;
+  
+  --border: #3C3C3E;
+  --border-hover: #4C4C4E;
+}
+
 @theme inline {
   --color-background: var(--bg-primary);
   --color-foreground: var(--text-primary);
@@ -43,6 +56,11 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+
+html.dark body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
 
 body {
   background: var(--bg-primary);
