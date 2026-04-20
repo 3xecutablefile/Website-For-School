@@ -106,7 +106,7 @@ export function FloatingChatWidget() {
                 <div className="flex max-w-[85%] flex-col gap-1">
                   <span className="text-xs font-medium text-muted-foreground">{currentAgent.name}</span>
                   <div className="rounded-2xl rounded-tl-none bg-muted/50 px-4 py-2.5 text-sm shadow-sm backdrop-blur-sm border border-border/20">
-                    <p>Hello! I'm {currentAgent.name}. How can I assist you with your project today?</p>
+                    <p>Hello! I&apos;m {currentAgent.name}. How can I assist you with your project today?</p>
                   </div>
                 </div>
               </motion.div>
