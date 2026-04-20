@@ -18,8 +18,9 @@ export default function WaterPage() {
     <div className="min-h-screen bg-[#FFFFFF] pb-24">
       <header className="sticky top-0 z-40 bg-[#FFFFFF]/80 backdrop-blur-xl border-b border-[#E5E5E7]">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="display text-xl font-semibold text-[#1D1D1F]">
-            Water
+          <Link href="/" className="flex items-center gap-0">
+            <span className="logo-text text-xl font-bold text-[#1D1D1F]">Ecolife</span>
+            <span className="logo-dot"></span>
           </Link>
           <span className="display text-2xl font-semibold text-[#007AFF]">45 gal</span>
         </div>
@@ -27,9 +28,9 @@ export default function WaterPage() {
 
       <main className="max-w-4xl mx-auto px-6 py-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <Droplets className="w-16 h-16 mx-auto mb-4 text-[#1D1D1F]" />
-          <h1 className="display text-4xl font-semibold text-[#1D1D1F] mb-2">Track Water</h1>
-          <p className="text-[#6E6E73]">Log your daily water usage</p>
+          <Droplets className="w-16 h-16 mx-auto mb-4 text-[#1D1D1F]" strokeWidth={1.5} />
+          <h1 className="display text-4xl font-semibold text-[#1D1D1F] mb-2">Optimize Your Hydration Footprint</h1>
+          <p className="text-[#6E6E73] micro-copy">Track every drop. Every measurement counts.</p>
         </motion.div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -50,8 +51,8 @@ export default function WaterPage() {
 
         <div className="minimal-border p-6 rounded-2xl mt-8">
           <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className="w-5 h-5 text-[#1D1D1F]" />
-            <h3 className="font-semibold text-[#1D1D1F]">This Week</h3>
+            <BarChart3 className="w-5 h-5 text-[#1D1D1F]" strokeWidth={1.5} />
+            <h3 className="font-semibold text-[#1D1D1F]">Weekly Analysis</h3>
           </div>
           <div className="flex items-end gap-1 h-32">
             {[45, 60, 35, 80, 50, 70, 55].map((v, i) => (

@@ -66,6 +66,36 @@ body::before {
 .display { font-family: 'Inter', sans-serif; }
 .display-serif { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
+/* Custom Cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #007AFF;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, width 0.15s ease, height 0.15s ease;
+  mix-blend-mode: multiply;
+}
+.cursor-dot.hovering {
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 122, 255, 0.1);
+  border: 1px solid #007AFF;
+  mix-blend-mode: normal;
+}
+
+/* Slide-Up Page Transition */
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Zero-Shadow Bento Card */
 .bento-card {
   background: var(--bg-primary);
@@ -102,6 +132,30 @@ body::before {
 }
 .reveal-delay-1 { animation-delay: 0.2s; }
 .reveal-delay-2 { animation-delay: 0.5s; }
+
+/* Ecolife Logo */
+.logo-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.logo-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #007AFF;
+  border-radius: 50%;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+/* Micro-Copy */
+.micro-copy {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
 
 /* Focus States */
 :focus-visible {

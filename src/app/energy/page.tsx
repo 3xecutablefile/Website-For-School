@@ -28,7 +28,7 @@ export default function EnergyPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <Zap className="w-16 h-16 mx-auto mb-4 text-[#1D1D1F]" />
           <h1 className="display text-4xl font-semibold text-[#1D1D1F] mb-2">Track Energy</h1>
-          <p className="text-[#6E6E73]">Monitor your electricity usage</p>
+          <p className="text-[#6E6E73]">Optimize your power consumption</p>
         </motion.div>
 
         <div className="minimal-border p-6 rounded-2xl mb-8">
