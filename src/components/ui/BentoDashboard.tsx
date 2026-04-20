@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Droplets, Leaf, Zap, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useEco } from "@/context/EcoContext";
 
 interface BentoCardProps {
   title: string;
@@ -31,33 +32,26 @@ function BentoCard({ title, description, icon: Icon, href }: BentoCardProps) {
   );
 }
 
-function StatCard({ value, label, trend }: { value: string; label: string; trend?: string }) {
-  return (
-    <div className="minimal-border p-4 rounded-xl">
-      <div className="flex items-center justify-between">
-        <p className="display text-2xl font-semibold text-[#1D1D1F]">{value}</p>
-        {trend && (
-          <span className="text-xs font-medium text-[#007AFF] bg-[#007AFF10] px-2 py-1 rounded-full">
-            {trend}
-          </span>
-        )}
-      </div>
-      <p className="text-xs text-[#A1A1A6] mt-1">{label}</p>
-    </div>
-  );
-}
-
 export default function BentoDashboard() {
+  const { data } = useEco();
+
+  const formatValue = (val: number) => {
+    if (val >= 1000) return (val / 1000).toFixed(1) + "k";
+    return val.toString();
+  };
+
   const cards: BentoCardProps[] = [
     { title: "Water", description: "Track shower, faucet, garden", icon: Droplets, href: "/water" },
     { title: "Waste", description: "Log recycling, composting", icon: Leaf, href: "/waste" },
     { title: "Energy", description: "Monitor electricity, HVAC", icon: Zap, href: "/energy" },
   ];
 
+  const hasData = data.water > 0 || data.energy > 0 || data.waste > 0;
+
   const stats = [
-    { value: "2,547", label: "Active Trackers", trend: "+12%" },
-    { value: "48.2k", label: "Gallons Saved", trend: "+8%" },
-    { value: "12.4k", label: "kg CO2 Reduced", trend: "+23%" },
+    { value: formatValue(data.water), label: "Gallons Tracked" },
+    { value: formatValue(data.energy), label: "kWh Tracked" },
+    { value: formatValue(data.waste), label: "Items Logged" },
   ];
 
   return (
@@ -91,7 +85,7 @@ export default function BentoDashboard() {
           ))}
         </div>
 
-        {/* Stats */}
+        {/* Stats - Dynamic */}
         <div className="grid grid-cols-3 gap-4">
           {stats.map((stat, index) => (
             <motion.div
@@ -100,8 +94,10 @@ export default function BentoDashboard() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 + index * 0.1 }}
+              className="minimal-border p-4 rounded-xl"
             >
-              <StatCard {...stat} />
+              <p className="display text-2xl font-semibold text-[#007AFF]">{stat.value}</p>
+              <p className="text-xs text-[#A1A1A6] mt-1">{stat.label}</p>
             </motion.div>
           ))}
         </div>
