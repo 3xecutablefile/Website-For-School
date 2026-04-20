@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Globe, Leaf, Zap, Droplets } from "lucide-react";
 import Link from "next/link";
+import StickyBottomNav from "@/components/ui/StickyBottomNav";
 
 export default function AboutPage() {
   const values = [
@@ -129,7 +130,7 @@ export default function AboutPage() {
               Join thousands of UAE residents tracking their sustainability journey.
             </p>
             <Link
-              href="/quiz"
+              href="/audit"
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#1D1D1F] text-white font-medium rounded-xl hover:bg-[#007AFF] transition-all"
             >
               Take the Eco-Audit
@@ -138,6 +139,8 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
+
+      <StickyBottomNav />
     </div>
   );
 }

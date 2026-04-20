@@ -10,7 +10,7 @@ const navItems = [
   { href: "/water", icon: Droplets, label: "Water" },
   { href: "/waste", icon: Leaf, label: "Waste" },
   { href: "/energy", icon: Zap, label: "Energy" },
-  { href: "/quiz", icon: ClipboardCheck, label: "Audit" },
+  { href: "/audit", icon: ClipboardCheck, label: "Audit" },
 ];
 
 export default function StickyBottomNav() {

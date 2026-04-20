@@ -33,7 +33,7 @@ export default function MiniNavbar() {
           { label: "Water", href: "/water" },
           { label: "Waste", href: "/waste" },
           { label: "Energy", href: "/energy" },
-          { label: "Audit", href: "/quiz" },
+          { label: "Audit", href: "/audit" },
         ].map((item) => (
           <Link
             key={item.label}

@@ -4,15 +4,24 @@ import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Droplets, BarChart3 } from "lucide-react";
+import { Droplets, BarChart3, Plus, RotateCcw } from "lucide-react";
+import { useEco } from "@/context/EcoContext";
+
+const activities = [
+  { name: "Shower", gal: 5, icon: "🚿" },
+  { name: "Dishwasher", gal: 10, icon: "🍽" },
+  { name: "Washing Machine", gal: 40, icon: "👕" },
+  { name: "Garden", gal: 20, icon: "🌱" },
+  { name: "Faucet", gal: 2, icon: "🚰" },
+  { name: "Toilet", gal: 3, icon: "🚽" },
+];
 
 export default function WaterPage() {
-  const activities = [
-    { name: "Shower", gal: 5 },
-    { name: "Dishwasher", gal: 10 },
-    { name: "Washing Machine", gal: 40 },
-    { name: "Garden", gal: 20 },
-  ];
+  const { data, addWater, resetData } = useEco();
+
+  const handleAdd = (amount: number) => {
+    addWater(amount);
+  };
 
   return (
     <div className="min-h-screen bg-[#FFFFFF] pb-24">
@@ -22,46 +31,61 @@ export default function WaterPage() {
             <span className="logo-text text-xl font-bold text-[#1D1D1F]">Ecolife</span>
             <span className="logo-dot"></span>
           </Link>
-          <span className="display text-2xl font-semibold text-[#007AFF]">45 gal</span>
+          <button
+            onClick={resetData}
+            className="p-2 hover:bg-[#F5F5F7] rounded-lg transition-colors"
+            title="Reset"
+          >
+            <RotateCcw className="w-4 h-4 text-[#A1A1A6]" />
+          </button>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-6 py-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          className="text-center mb-12"
+        >
           <Droplets className="w-16 h-16 mx-auto mb-4 text-[#1D1D1F]" strokeWidth={1.5} />
           <h1 className="display text-4xl font-semibold text-[#1D1D1F] mb-2">Optimize Your Hydration Footprint</h1>
-          <p className="text-[#6E6E73] micro-copy">Track every drop. Every measurement counts.</p>
+          <p className="text-[#6E6E73]">Track every drop. Every measurement counts.</p>
+          <div className="display text-5xl font-bold text-[#007AFF] mt-6">
+            {data.water} <span className="text-xl font-normal text-[#6E6E73]">gal</span>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
           {activities.map((activity, i) => (
             <motion.button
               key={activity.name}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.1 }}
-              whileTap={{ scale: 0.98 }}
-              className="bento-card p-6 text-left cursor-pointer"
+              transition={{ delay: i * 0.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleAdd(activity.gal)}
+              className="bento-card p-4 text-center cursor-pointer group"
             >
+              <Plus className="w-5 h-5 mx-auto mb-2 text-[#A1A1A6] group-hover:text-[#007AFF] transition-colors" />
               <p className="display text-lg font-semibold text-[#1D1D1F]">{activity.name}</p>
-              <p className="text-[#007AFF] font-medium mt-1">-{activity.gal} gal</p>
+              <p className="text-[#007AFF] font-medium mt-1">+{activity.gal} gal</p>
             </motion.button>
           ))}
         </div>
 
-        <div className="minimal-border p-6 rounded-2xl mt-8">
+        <div className="minimal-border p-6 rounded-2xl">
           <div className="flex items-center gap-2 mb-4">
             <BarChart3 className="w-5 h-5 text-[#1D1D1F]" strokeWidth={1.5} />
-            <h3 className="font-semibold text-[#1D1D1F]">Weekly Analysis</h3>
+            <h3 className="font-semibold text-[#1D1D1F]">Daily Breakdown</h3>
           </div>
           <div className="flex items-end gap-1 h-32">
-            {[45, 60, 35, 80, 50, 70, 55].map((v, i) => (
+            {[data.water, data.water * 1.3, data.water * 0.8, data.water * 1.5, data.water * 0.9, data.water * 1.1, data.water].map((v, i) => (
               <motion.div
                 key={i}
-                className="flex-1 bg-[#1D1D1F] rounded-t-sm"
+                className="flex-1 bg-[#1D1D1F] rounded-t-sm min-h-[4px]"
                 initial={{ height: 0 }}
-                animate={{ height: `${v}%` }}
-                transition={{ delay: 0.3 + i * 0.05 }}
+                animate={{ height: `${Math.min(v / 2, 100)}%` }}
+                transition={{ delay: 0.2 + i * 0.05 }}
               />
             ))}
           </div>
