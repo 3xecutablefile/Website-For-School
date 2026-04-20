@@ -13,6 +13,8 @@ interface EcoData {
 
 interface EcoContextType {
   data: EcoData;
+  darkMode: boolean;
+  toggleDarkMode: () => void;
   addWater: (amount: number) => void;
   addEnergy: (amount: number) => void;
   addWaste: (amount: number) => void;
@@ -35,6 +37,7 @@ const EcoContext = createContext<EcoContextType | undefined>(undefined);
 
 export function EcoProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<EcoData>(defaultData);
+  const [darkMode, setDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -47,7 +50,21 @@ export function EcoProvider({ children }: { children: ReactNode }) {
         setData(defaultData);
       }
     }
+    const savedDark = localStorage.getItem("ecolife-dark");
+    if (savedDark) {
+      setDarkMode(JSON.parse(savedDark));
+    }
   }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      localStorage.setItem("ecolife-dark", JSON.stringify(darkMode));
+    }
+  }, [darkMode, mounted]);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
+  };
 
   useEffect(() => {
     if (mounted) {
@@ -97,7 +114,7 @@ export function EcoProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <EcoContext.Provider value={{ data, addWater, addEnergy, addWaste, addRecycled, addComposted, addLandfill, resetData }}>
+    <EcoContext.Provider value={{ data, darkMode, toggleDarkMode, addWater, addEnergy, addWaste, addRecycled, addComposted, addLandfill, resetData }}>
       {children}
     </EcoContext.Provider>
   );

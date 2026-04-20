@@ -4,8 +4,10 @@ import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ArrowRight, RefreshCcw, Droplets, Leaf, Zap, Recycle } from "lucide-react";
+import { ArrowRight, RefreshCcw, Droplets, Leaf, Zap, Recycle } from "lucide-react";
 import Link from "next/link";
+import { useEco } from "@/context/EcoContext";
+import PageHeader from "@/components/ui/PageHeader";
 
 const questions = [
   {
@@ -98,6 +100,7 @@ function getPersona(score: number) {
 }
 
 export default function AuditPage() {
+  const { darkMode } = useEco();
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -128,14 +131,15 @@ export default function AuditPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF]">
-      <div className="fixed top-0 left-0 right-0 z-40 bg-[#FFFFFF]/80 backdrop-blur-xl border-b border-[#E5E5E7]">
+    <div className={`min-h-screen ${darkMode ? "bg-[#1D1D1F]" : "bg-[#FFFFFF]"}`}>
+      <PageHeader title="Audit" showBack={true} />
+      <div className={`fixed top-0 left-0 right-0 z-40 ${darkMode ? "bg-[#1D1D1F]/80" : "bg-[#FFFFFF]/80"} backdrop-blur-xl border-b ${darkMode ? "border-[#2C2C2E]" : "border-[#E5E5E7]"}`}>
         <div className="max-w-2xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-[#6E6E73]">Eco-Audit</span>
+            <span className={`text-xs font-medium ${darkMode ? "text-[#A1A1A6]" : "text-[#6E6E73]"}`}>Eco-Audit</span>
             <span className="text-xs font-medium text-[#007AFF]">{step + 1} / {questions.length}</span>
           </div>
-          <div className="h-1 bg-[#E5E5E7] rounded-full overflow-hidden">
+          <div className={`h-1 rounded-full overflow-hidden ${darkMode ? "bg-[#2C2C2E]" : "bg-[#E5E5E7]"}`}>
             <motion.div
               className="h-full bg-[#007AFF]"
               initial={{ width: 0 }}
@@ -157,10 +161,10 @@ export default function AuditPage() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="text-xs font-medium tracking-widest text-[#A1A1A6] uppercase mb-4">
+                <p className={`text-xs font-medium tracking-widest ${darkMode ? "text-[#A1A1A6]" : "text-[#A1A1A6]"} uppercase mb-4`}>
                   Question {step + 1} of {questions.length}
                 </p>
-                <h2 className="display text-3xl font-semibold text-[#1D1D1F] mb-8">
+                <h2 className={`display text-3xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"} mb-8`}>
                   {questions[step].question}
                 </h2>
 
@@ -175,13 +179,13 @@ export default function AuditPage() {
                       disabled={selectedOption !== null}
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
-                      className={`w-full p-4 rounded-xl text-left bg-[#F5F5F7] hover:bg-[#E5E5E7] border border-transparent transition-all group ${
+                      className={`w-full p-4 rounded-xl text-left ${darkMode ? "bg-[#2C2C2E] hover:bg-[#3C3C3E]" : "bg-[#F5F5F7] hover:bg-[#E5E5E7]"} border border-transparent transition-all group ${
                         selectedOption === option.value ? "border-[#007AFF]" : ""
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-[#1D1D1F] font-medium">{option.label}</span>
-                        <ArrowRight className="w-4 h-4 text-[#A1A1A6] group-hover:text-[#007AFF] transition-colors" />
+                        <span className={darkMode ? "text-[#FFFFFF] font-medium" : "text-[#1D1D1F] font-medium"}>{option.label}</span>
+                        <ArrowRight className={`w-4 h-4 ${darkMode ? "text-[#A1A1A6]" : "text-[#A1A1A6]"} group-hover:text-[#007AFF] transition-colors`} />
                       </div>
                     </motion.button>
                   ))}
@@ -195,28 +199,32 @@ export default function AuditPage() {
                 transition={{ duration: 0.4 }}
                 className="text-center"
               >
-                <p className="text-xs font-medium tracking-widest text-[#A1A1A6] uppercase mb-4">Your Sustainability Persona</p>
+                <p className={`text-xs font-medium tracking-widest ${darkMode ? "text-[#A1A1A6]" : "text-[#A1A1A6]"} uppercase mb-4`}>Your Sustainability Persona</p>
                 
-                <div className="minimal-border rounded-2xl p-8 mb-8">
+                <div className={`minimal-border rounded-2xl p-8 mb-8 ${darkMode ? "bg-[#2C2C2E] border-[#3C3C3E]" : ""}`}>
                   <PersonaIcon className="w-16 h-16 mx-auto mb-4 text-[#007AFF]" strokeWidth={1.5} />
-                  <h2 className="display text-4xl font-bold text-[#1D1D1F] mb-4">{persona.title}</h2>
-                  <p className="text-[#6E6E73] text-lg">{persona.desc}</p>
-                  <div className="mt-6 pt-6 border-t border-[#E5E5E7]">
-                    <p className="text-sm text-[#A1A1A6]">Audit Score: <span className="text-[#007AFF] font-semibold">{score}</span> / {questions.length * 3}</p>
+                  <h2 className={`display text-4xl font-bold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"} mb-4`}>{persona.title}</h2>
+                  <p className={darkMode ? "text-[#A1A1A6] text-lg" : "text-[#6E6E73] text-lg"}>{persona.desc}</p>
+                  <div className={`mt-6 pt-6 border-t ${darkMode ? "border-[#3C3C3E]" : "border-[#E5E5E7]"}`}>
+                    <p className={`text-sm ${darkMode ? "text-[#A1A1A6]" : "text-[#A1A1A6]"}`}>Audit Score: <span className="text-[#007AFF] font-semibold">{score}</span> / {questions.length * 3}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
                     onClick={resetAudit}
-                    className="inline-flex items-center gap-2 px-6 py-3 border border-[#E5E5E7] text-[#1D1D1F] font-medium rounded-xl hover:border-[#007AFF] transition-all"
+                    className={`inline-flex items-center gap-2 px-6 py-3 border font-medium rounded-xl transition-all ${
+                      darkMode 
+                        ? "border-[#3C3C3E] text-[#FFFFFF] hover:border-[#007AFF]" 
+                        : "border-[#E5E5E7] text-[#1D1D1F] hover:border-[#007AFF]"
+                    }`}
                   >
                     <RefreshCcw className="w-4 h-4" />
                     Retake Audit
                   </button>
                   <Link
                     href="/"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#1D1D1F] text-white font-medium rounded-xl hover:bg-[#007AFF] transition-all"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#007AFF] text-white font-medium rounded-xl hover:bg-[#0056CC] transition-all"
                   >
                     Start Tracking
                     <ArrowRight className="w-4 h-4" />
