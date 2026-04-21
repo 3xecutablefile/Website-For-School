@@ -8,9 +8,10 @@ import { useEffect } from "react";
 interface PageHeaderProps {
   title: string;
   showBack?: boolean;
+  showReset?: boolean;
 }
 
-export default function PageHeader({ title, showBack = true }: PageHeaderProps) {
+export default function PageHeader({ title, showBack = true, showReset = false }: PageHeaderProps) {
   const { darkMode, toggleDarkMode, resetData } = useEco();
 
   useEffect(() => {
@@ -49,13 +50,15 @@ export default function PageHeader({ title, showBack = true }: PageHeaderProps) 
               <Moon className="w-4 h-4 text-[#1D1D1F]" />
             )}
           </button>
-          <button
-            onClick={resetData}
-            className={`p-2 rounded-lg ${darkMode ? "hover:bg-[#2C2C2E]" : "hover:bg-[#F5F5F7]"} transition-colors`}
-            title="Reset Data"
-          >
-            <RotateCcw className={`w-4 h-4 ${darkMode ? "text-[#A1A1A6]" : "text-[#A1A1A6]"}`} />
-          </button>
+          {showReset && (
+            <button
+              onClick={resetData}
+              className={`p-2 rounded-lg ${darkMode ? "hover:bg-[#2C2C2E]" : "hover:bg-[#F5F5F7]"} transition-colors`}
+              title="Reset Data"
+            >
+              <RotateCcw className="w-4 h-4 text-[#A1A1A6]" />
+            </button>
+          )}
         </div>
       </div>
     </header>

@@ -11,7 +11,7 @@ export default function WastePage() {
 
   return (
     <div className={`min-h-screen pb-24 ${darkMode ? "bg-[#1D1D1F]" : "bg-[#FFFFFF]"}`}>
-      <PageHeader title="Waste" />
+      <PageHeader title="Waste" showReset />
 
       <main className="max-w-4xl mx-auto px-6 py-8">
         <motion.div 

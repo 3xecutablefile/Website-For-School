@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Globe, Leaf, Zap, Droplets } from "lucide-react";
+import { ArrowRight, Globe, Leaf, Zap } from "lucide-react";
 import Link from "next/link";
 import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import PageHeader from "@/components/ui/PageHeader";
 import { useEco } from "@/context/EcoContext";
 
 export default function AboutPage() {
-  const { darkMode } = useEco();
+  const { darkMode, data } = useEco();
   const values = [
     {
       icon: Globe,
@@ -27,11 +27,16 @@ export default function AboutPage() {
     },
   ];
 
+  const formatValue = (value: number) => {
+    if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
+    return value.toString();
+  };
+
   const stats = [
-    { value: "2,547", label: "Active Users" },
-    { value: "48.2k", label: "Gallons Saved" },
-    { value: "12.4k", label: "kg CO₂ Reduced" },
-    { value: "98%", label: "Satisfaction" },
+    { value: formatValue(data.water), label: "Gallons Tracked" },
+    { value: formatValue(data.energy), label: "kWh Tracked" },
+    { value: formatValue(data.waste), label: "Items Logged" },
+    { value: formatValue(data.wasteRecycled + data.wasteComposted), label: "Low-Waste Actions" },
   ];
 
   return (
@@ -131,7 +136,7 @@ export default function AboutPage() {
               Ready to Make an Impact?
             </h2>
             <p className={`${darkMode ? "text-[#A1A1A6]" : "text-[#6E6E73]"} mb-8`}>
-              Join thousands of UAE residents tracking their sustainability journey.
+              Build a personal baseline, track your habits, and turn daily choices into measurable impact.
             </p>
             <Link
               href="/audit"
