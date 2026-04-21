@@ -2,7 +2,6 @@
 
 import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import PageHeader from "@/components/ui/PageHeader";
-import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { motion } from "framer-motion";
 import { Leaf, Plus, Recycle, Sprout, Trash2 } from "lucide-react";
 import { useEco } from "@/context/EcoContext";
@@ -109,7 +108,6 @@ export default function WastePage() {
       </main>
 
       <StickyBottomNav />
-      <FloatingChatWidget />
     </div>
   );
 }

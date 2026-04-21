@@ -1,7 +1,6 @@
 "use client";
 
 import StickyBottomNav from "@/components/ui/StickyBottomNav";
-import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, RefreshCcw, Droplets, Leaf, Zap, Recycle } from "lucide-react";
@@ -237,7 +236,6 @@ export default function AuditPage() {
       </div>
 
       <StickyBottomNav />
-      <FloatingChatWidget />
     </div>
   );
 }

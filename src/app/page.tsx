@@ -7,7 +7,6 @@ import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import MiniNavbar from "@/components/ui/MiniNavbar";
 import FancyFooter from "@/components/ui/FancyFooter";
 import AnimatedStats from "@/components/ui/AnimatedStats";
-import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -39,7 +38,6 @@ export default function Home() {
       <ACTemperatureSlider />
       <FancyFooter />
       <StickyBottomNav />
-      <FloatingChatWidget />
     </div>
   );
 }

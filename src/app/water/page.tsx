@@ -2,7 +2,6 @@
 
 import StickyBottomNav from "@/components/ui/StickyBottomNav";
 import PageHeader from "@/components/ui/PageHeader";
-import { FloatingChatWidget } from "@/components/ui/floating-chat-widget";
 import { motion } from "framer-motion";
 import { Droplets, BarChart3, Plus } from "lucide-react";
 import { useEco } from "@/context/EcoContext";
@@ -84,7 +83,6 @@ export default function WaterPage() {
       </main>
 
       <StickyBottomNav />
-      <FloatingChatWidget />
     </div>
   );
 }
