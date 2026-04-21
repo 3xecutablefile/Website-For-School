@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Thermometer, Wind, Leaf, Zap } from "lucide-react";
+import { useEco } from "@/context/EcoContext";
 
 export default function ACTemperatureSlider() {
   const [temperature, setTemperature] = useState(24);
+  const { darkMode } = useEco();
   
   // Temperature tint logic
   const getTint = (temp: number) => {
@@ -30,7 +32,7 @@ export default function ACTemperatureSlider() {
     <section className="py-20 px-6">
       <div className="max-w-3xl mx-auto">
         <motion.div
-          className="minimal-border rounded-2xl p-8 md:p-12"
+          className={`minimal-border rounded-2xl p-8 md:p-12 ${darkMode ? "bg-[#2C2C2E]" : ""}`}
           style={{ background: tint, borderColor }}
           animate={{ borderColor }}
           transition={{ duration: 0.3 }}
@@ -38,17 +40,17 @@ export default function ACTemperatureSlider() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <Thermometer className="w-6 h-6 text-[#1D1D1F]" />
+              <Thermometer className={`w-6 h-6 ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`} />
               <div>
-                <h3 className="display text-xl font-semibold text-[#1D1D1F]">Temperature</h3>
-                <p className="text-sm text-[#6E6E73]">Adjust your AC for savings</p>
+                <h3 className={`display text-xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>Temperature</h3>
+                <p className={`text-sm ${darkMode ? "text-[#A1A1A6]" : "text-[#6E6E73]"}`}>Adjust your AC for savings</p>
               </div>
             </div>
             <motion.p
               key={temperature}
               initial={{ scale: 1.1 }}
               animate={{ scale: 1 }}
-              className="display text-5xl font-semibold text-[#1D1D1F]"
+              className={`display text-5xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}
             >
               {temperature}°
             </motion.p>
@@ -62,9 +64,9 @@ export default function ACTemperatureSlider() {
               max="30"
               value={temperature}
               onChange={(e) => setTemperature(parseInt(e.target.value))}
-              className="w-full h-2 rounded-full appearance-none cursor-pointer bg-[#E5E5E7]"
+              className={`w-full h-2 rounded-full appearance-none cursor-pointer ${darkMode ? "bg-[#3C3C3E]" : "bg-[#E5E5E7]"}`}
               style={{
-                background: `linear-gradient(to right, ${borderColor} 0%, ${borderColor} ${((temperature - 16) / 14) * 100}%, #E5E5E7 ${((temperature - 16) / 14) * 100}%, #E5E5E7 100%)`,
+                background: `linear-gradient(to right, ${borderColor} 0%, ${borderColor} ${((temperature - 16) / 14) * 100}%, ${darkMode ? "#3C3C3E" : "#E5E5E7"} ${((temperature - 16) / 14) * 100}%, ${darkMode ? "#3C3C3E" : "#E5E5E7"} 100%)`,
               }}
             />
             <div className="flex justify-between mt-2 text-xs text-[#A1A1A6]">
@@ -78,31 +80,31 @@ export default function ACTemperatureSlider() {
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-[#F5F5F7] rounded-xl">
+            <div className={`text-center p-4 rounded-xl ${darkMode ? "bg-[#1D1D1F]" : "bg-[#F5F5F7]"}`}>
               <Leaf className="w-5 h-5 mx-auto mb-2 text-[#6E6E73]" />
-              <p className="display text-xl font-semibold text-[#1D1D1F]">{carbonSaved.toFixed(1)} kg</p>
+              <p className={`display text-xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>{carbonSaved.toFixed(1)} kg</p>
               <p className="text-xs text-[#A1A1A6]">CO2 Saved Daily</p>
             </div>
-            <div className="text-center p-4 bg-[#F5F5F7] rounded-xl">
+            <div className={`text-center p-4 rounded-xl ${darkMode ? "bg-[#1D1D1F]" : "bg-[#F5F5F7]"}`}>
               <Zap className="w-5 h-5 mx-auto mb-2 text-[#6E6E73]" />
-              <p className="display text-xl font-semibold text-[#1D1D1F]">{(carbonSaved * 90).toFixed(0)} kg</p>
+              <p className={`display text-xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>{(carbonSaved * 90).toFixed(0)} kg</p>
               <p className="text-xs text-[#A1A1A6]">CO2 Saved Yearly</p>
             </div>
-            <div className="text-center p-4 bg-[#F5F5F7] rounded-xl">
+            <div className={`text-center p-4 rounded-xl ${darkMode ? "bg-[#1D1D1F]" : "bg-[#F5F5F7]"}`}>
               {temperature <= 20 ? (
                 <>
                   <Wind className="w-5 h-5 mx-auto mb-2 text-[#FFA500]" />
-                  <p className="display text-xl font-semibold text-[#1D1D1F]">Too Cold</p>
+                  <p className={`display text-xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>Too Cold</p>
                 </>
               ) : temperature <= 24 ? (
                 <>
                   <Wind className="w-5 h-5 mx-auto mb-2 text-[#007AFF]" />
-                  <p className="display text-xl font-semibold text-[#1D1D1F]">Optimal</p>
+                  <p className={`display text-xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>Optimal</p>
                 </>
               ) : (
                 <>
                   <Wind className="w-5 h-5 mx-auto mb-2 text-[#007AFF]" />
-                  <p className="display text-xl font-semibold text-[#1D1D1F]">Eco</p>
+                  <p className={`display text-xl font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>Eco</p>
                 </>
               )}
               <p className="text-xs text-[#A1A1A6]">{temperature <= 20 ? "Try 24C" : temperature <= 24 ? "Balanced" : "Best"}</p>

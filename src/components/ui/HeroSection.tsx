@@ -8,7 +8,7 @@ import { useEco } from "@/context/EcoContext";
 
 export default function HeroSection() {
   const [visible, setVisible] = useState(false);
-  const { data } = useEco();
+  const { data, darkMode } = useEco();
 
   useEffect(() => {
     setVisible(true);
@@ -18,8 +18,6 @@ export default function HeroSection() {
     if (val >= 1000) return (val / 1000).toFixed(1) + "k";
     return val.toString();
   };
-
-  const hasData = data.water > 0 || data.energy > 0 || data.waste > 0;
 
   return (
     <section className="relative min-h-[85vh] flex items-center">
@@ -33,7 +31,7 @@ export default function HeroSection() {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <h1 className="display text-5xl md:text-7xl lg:text-8xl font-semibold text-[#1D1D1F] leading-[1.1] tracking-tight">
+            <h1 className={`display text-5xl md:text-7xl lg:text-8xl font-semibold leading-[1.1] tracking-tight ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>
               Small habits
             </h1>
           </motion.div>
@@ -45,7 +43,7 @@ export default function HeroSection() {
             transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <h1 className="display-serif text-5xl md:text-7xl lg:text-8xl font-medium text-[#1D1D1F] leading-[1.1] tracking-tight">
+            <h1 className={`display-serif text-5xl md:text-7xl lg:text-8xl font-medium leading-[1.1] tracking-tight ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>
               Big impact
             </h1>
           </motion.div>
@@ -55,7 +53,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-lg md:text-xl text-[#6E6E73] mt-8 max-w-lg leading-relaxed"
+            className={`text-lg md:text-xl mt-8 max-w-lg leading-relaxed ${darkMode ? "text-[#A1A1A6]" : "text-[#6E6E73]"}`}
           >
             Track water, waste, and energy. Build sustainable habits. 
             See your real environmental impact.
@@ -70,14 +68,18 @@ export default function HeroSection() {
           >
             <Link
               href="/water"
-              className="group magnetic-btn inline-flex items-center gap-2 px-8 py-4 bg-[#1D1D1F] text-white font-medium rounded-xl hover:bg-[#007AFF] transition-colors"
+              className="group magnetic-btn inline-flex items-center gap-2 px-8 py-4 bg-[#007AFF] text-white font-medium rounded-xl hover:bg-[#0056CC] transition-colors"
             >
               Start Tracking
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/about"
-              className="magnetic-btn inline-flex items-center gap-2 px-8 py-4 border border-[#E5E5E7] text-[#1D1D1F] font-medium rounded-xl hover:border-[#007AFF] hover:text-[#007AFF] transition-all"
+              className={`magnetic-btn inline-flex items-center gap-2 px-8 py-4 border font-medium rounded-xl transition-all ${
+                darkMode 
+                  ? "border-[#3C3C3E] text-[#FFFFFF] hover:border-[#007AFF] hover:text-[#007AFF]" 
+                  : "border-[#E5E5E7] text-[#1D1D1F] hover:border-[#007AFF] hover:text-[#007AFF]"
+              }`}
             >
               Learn More
             </Link>
@@ -88,7 +90,7 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={visible ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 1 }}
-            className="flex flex-wrap gap-10 mt-16 pt-8 border-t border-[#E5E5E7]"
+            className={`flex flex-wrap gap-10 mt-16 pt-8 border-t ${darkMode ? "border-[#2C2C2E]" : "border-[#E5E5E7]"}`}
           >
             <div>
               <p className="display text-2xl font-semibold text-[#007AFF]">{formatValue(data.water)}</p>
@@ -118,9 +120,9 @@ export default function HeroSection() {
             { label: "Energy", desc: "Monitor usage", href: "/energy" },
           ].map((item) => (
             <Link key={item.label} href={item.href}>
-              <div className="bento-card p-6 cursor-pointer">
-                <h3 className="display text-lg font-semibold text-[#1D1D1F]">{item.label}</h3>
-                <p className="text-sm text-[#6E6E73] mt-1">{item.desc}</p>
+              <div className={`bento-card p-6 cursor-pointer ${darkMode ? "bg-[#2C2C2E] border-[#3C3C3E]" : ""}`}>
+                <h3 className={`display text-lg font-semibold ${darkMode ? "text-[#FFFFFF]" : "text-[#1D1D1F]"}`}>{item.label}</h3>
+                <p className={`text-sm mt-1 ${darkMode ? "text-[#A1A1A6]" : "text-[#6E6E73]"}`}>{item.desc}</p>
               </div>
             </Link>
           ))}

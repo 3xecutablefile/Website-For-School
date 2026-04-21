@@ -50,17 +50,7 @@ export function EcoProvider({ children }: { children: ReactNode }) {
         setData(defaultData);
       }
     }
-    const savedDark = localStorage.getItem("ecolife-dark");
-    if (savedDark) {
-      setDarkMode(JSON.parse(savedDark));
-    }
   }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem("ecolife-dark", JSON.stringify(darkMode));
-    }
-  }, [darkMode, mounted]);
 
   const toggleDarkMode = () => {
     setDarkMode((prev) => !prev);
